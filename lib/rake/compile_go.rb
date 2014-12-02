@@ -16,7 +16,7 @@ module Go
         else
             system 'git', 'clone', repository, path
         end
-        Dir.chdir(path) { system 'git', 'checkout', '-f', tag }
+        Dir.chdir(path) { system 'git', 'checkout', '-q', '-f', tag }
         go_command = ['docker', 'run', '--rm', '-v', "#{workspace}:/go"]
         go_command << '-e' << 'CGO_ENABLED=0' if static
         go_command << "golang:#{goversion}" << 'go' << 'get'
