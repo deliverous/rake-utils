@@ -17,10 +17,10 @@ module Go
             system 'git', 'clone', repository, path
         end
         Dir.chdir(path) { system 'git', 'checkout', '-f', tag }
-        go_command = ['docker', 'run', '--user', "#{Process.uid}", '--rm', '-v', "#{workspace}:/go"]
+        go_command = ['docker', 'run', '--rm', '-v', "#{workspace}:/go"]
         go_command << '-e' << 'CGO_ENABLED=0' if static
         go_command << "golang:#{goversion}" << 'go' << 'get'
-        go_command << '--ldflags' << '-s -extldflags \"-static\"' if static
+        go_command << '-a' << '--ldflags' << '-s -extldflags \"-static\"' if static
         go_command << package
         system *go_command
         Dir.glob(File.join(workspace, 'bin', '*')).each do |binary|           
