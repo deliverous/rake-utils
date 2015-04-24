@@ -19,11 +19,9 @@ module Go
             tag = options[:tag] || "master"
             destination = File.join(@workspace, 'src', path)
             if Dir.exists?(destination)
-                Dir.chdir(destination) { system 'git', 'fetch', '--update-head-ok' }
-            else
-                system 'git', 'clone', repository, destination
+                FileUtils.rm_rf(destination)
             end
-            Dir.chdir(destination) { system 'git', 'checkout', '-q', '-f', tag }
+            system 'git', 'clone', '--depth=1', '--branch', tag, repository, destination
         end
 
         def package(name)
