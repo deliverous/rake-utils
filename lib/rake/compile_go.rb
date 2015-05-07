@@ -21,7 +21,7 @@ module Go
             if Dir.exists?(destination)
                 FileUtils.rm_rf(destination)
             end
-            system 'git', 'clone', '--depth=1', '--branch', tag, repository, destination
+            system 'git', 'clone', '--quiet', '--depth=1', '--branch', tag, repository, destination
         end
 
         def package(name)
